@@ -39,18 +39,23 @@ export default function AuthScreen() {
       }
       
       try {
+        console.log('🔐 Tentando fazer login...');
+        
         const { data, error } = await supabase.auth.signInWithPassword({
           email: formData.email,
           password: formData.password,
         });
 
         if (error) {
+          console.error('❌ Erro no login:', error);
           Alert.alert('Erro', error.message);
           return;
         }
 
+        console.log('✅ Login realizado com sucesso:', data);
         router.replace('/(tabs)');
       } catch (error) {
+        console.error('💥 Erro geral no login:', error);
         Alert.alert('Erro', 'Erro ao fazer login. Tente novamente.');
       }
     } else {

@@ -2,10 +2,28 @@ import { useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { supabase } from '../lib/supabase';
 
 
 export default function WelcomeScreen() {
   const router = useRouter();
+
+  useEffect(() => {
+    // Verificar se o usuário já está logado
+    const checkAuthState = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          console.log('✅ Usuário já está logado, redirecionando...');
+          router.replace('/(tabs)');
+        }
+      } catch (error) {
+        console.error('❌ Erro ao verificar sessão:', error);
+      }
+    };
+
+    checkAuthState();
+  }, []);
 
   return (
     <LinearGradient
