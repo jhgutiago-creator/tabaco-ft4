@@ -19,6 +19,7 @@ export default function AuthScreen() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   
   const [formData, setFormData] = useState({
     email: '',
@@ -32,9 +33,20 @@ export default function AuthScreen() {
   });
 
   const handleSubmit = async () => {
+    console.log('🔄 Botão clicado, iniciando processo...', { isLogin, formData });
+    
+    if (loading) {
+      console.log('⏳ Já está processando, ignorando clique');
+      return;
+    }
+    
+    setLoading(true);
+    
     if (isLogin) {
       if (!formData.email || !formData.password) {
+        console.log('❌ Campos obrigatórios não preenchidos');
         Alert.alert('Erro', 'Por favor, preencha todos os campos');
+        setLoading(false);
         return;
       }
       
@@ -49,6 +61,7 @@ export default function AuthScreen() {
         if (error) {
           console.error('❌ Erro no login:', error);
           Alert.alert('Erro', error.message);
+          setLoading(false);
           return;
         }
 
@@ -57,6 +70,7 @@ export default function AuthScreen() {
       } catch (error) {
         console.error('💥 Erro geral no login:', error);
         Alert.alert('Erro', 'Erro ao fazer login. Tente novamente.');
+        setLoading(false);
       }
     } else {
       if (
@@ -70,11 +84,13 @@ export default function AuthScreen() {
         !formData.state
       ) {
         Alert.alert('Erro', 'Por favor, preencha todos os campos');
+        setLoading(false);
         return;
       }
       
       if (formData.password !== formData.confirmPassword) {
         Alert.alert('Erro', 'As senhas não coincidem');
+        setLoading(false);
         return;
       }
       
@@ -87,6 +103,7 @@ export default function AuthScreen() {
 
         if (authError) {
           Alert.alert('Erro', authError.message);
+          setLoading(false);
           return;
         }
 
@@ -107,6 +124,7 @@ export default function AuthScreen() {
 
           if (profileError) {
             Alert.alert('Erro', 'Erro ao criar perfil: ' + profileError.message);
+            setLoading(false);
             return;
           }
 
@@ -116,6 +134,7 @@ export default function AuthScreen() {
         }
       } catch (error) {
         Alert.alert('Erro', 'Erro ao criar conta. Tente novamente.');
+        setLoading(false);
       }
     }
   };
@@ -280,7 +299,7 @@ export default function AuthScreen() {
 
             <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
               <Text style={styles.submitButtonText}>
-                {isLogin ? 'Entrar' : 'Criar Conta'}
+                {loading ? 'Processando...' : (isLogin ? 'Entrar' : 'Criar Conta')}
               </Text>
             </TouchableOpacity>
 
@@ -417,6 +436,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     marginBottom: 20,
+    opacity: 1,
   },
   submitButtonText: {
     color: 'white',
