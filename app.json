@@ -7,7 +7,7 @@
     "icon": "./assets/images/icon.png",
     "scheme": "projetoft",
     "userInterfaceStyle": "light",
-    "newArchEnabled": false,
+    "newArchEnabled": true,
     "ios": {
       "supportsTablet": true
     },
@@ -18,7 +18,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "server",
       "favicon": "./assets/images/favicon.png"
     },
     "extra": {
@@ -26,10 +26,15 @@
         "projectId": "your-project-id"
       }
     },
-    "plugins": ["expo-router", "expo-font", "expo-web-browser"],
+    "plugins": [
+      "expo-router",
+      "expo-font", 
+      "expo-web-browser"
+    ],
     "experiments": {
       "typedRoutes": true
     },
-    "sdkVersion": "53.0.0"
+    "sdkVersion": "53.0.0",
+    "platforms": ["ios", "android", "web"]
   }
 }
