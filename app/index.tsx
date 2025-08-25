@@ -1,32 +1,9 @@
-import { useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
-import { supabase } from '../lib/supabase';
-
 
 export default function WelcomeScreen() {
   const router = useRouter();
-
-  useEffect(() => {
-    // Verificar se o usuário já está logado
-    const checkAuthState = async () => {
-      try {
-        console.log('🔍 Verificando estado de autenticação...');
-        const { data: { session } } = await supabase.auth.getSession();
-        if (session) {
-          console.log('✅ Usuário já está logado, redirecionando...');
-          router.replace('/(tabs)');
-        } else {
-          console.log('ℹ️ Usuário não está logado');
-        }
-      } catch (error) {
-        console.error('❌ Erro ao verificar sessão:', error);
-      }
-    };
-
-    checkAuthState();
-  }, []);
 
   return (
     <LinearGradient
@@ -78,7 +55,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   primaryButton: {
-    backgroundColor: '#22C55E',
+    backgroundColor: 'white',
     paddingHorizontal: 40,
     paddingVertical: 16,
     borderRadius: 25,
@@ -87,11 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   primaryButtonText: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  subtitle: {
+    color: '#22C55E',
     fontSize: 18,
     fontWeight: 'bold',
   },
