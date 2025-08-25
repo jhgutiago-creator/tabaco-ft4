@@ -12,10 +12,13 @@ export default function WelcomeScreen() {
     // Verificar se o usuário já está logado
     const checkAuthState = async () => {
       try {
+        console.log('🔍 Verificando estado de autenticação...');
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
           console.log('✅ Usuário já está logado, redirecionando...');
           router.replace('/(tabs)');
+        } else {
+          console.log('ℹ️ Usuário não está logado');
         }
       } catch (error) {
         console.error('❌ Erro ao verificar sessão:', error);
@@ -32,7 +35,7 @@ export default function WelcomeScreen() {
     >
       <View style={styles.content}>
         <View style={styles.logoContainer}>
-        <Text style={styles.logoText}>Projeto FT</Text>
+          <Text style={styles.logoText}>Projeto FT</Text>
         </View>
 
         <View style={styles.buttonContainer}>
